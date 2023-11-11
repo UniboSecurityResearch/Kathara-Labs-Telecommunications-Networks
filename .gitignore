@@ -357,3 +357,6 @@ shared/ta.key
 
 # test results
 test/results*
+
+# ignore script_Franco.sh
+script_Franco.sh

@@ -1,0 +1,9 @@
+ip address add 172.16.2.254/24 dev eth0
+ip address add 10.12.12.2/24 dev eth1
+#ip route add 172.16.1.0/24 via 10.12.12.1 dev eth1
+
+# Configure GRE tunnel on R2
+ip tunnel add gre1 mode gre remote 10.12.12.1 local 10.12.12.2 ttl 255
+ip link set gre1 up
+ip addr add 192.168.18.2/30 dev gre1
+ip route add 172.16.1.0/24 via 192.168.18.1
