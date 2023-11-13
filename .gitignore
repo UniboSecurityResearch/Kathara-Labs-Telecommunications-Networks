@@ -350,7 +350,7 @@ TSWLatexianTemp*
 _old
 
 # shared files
-shared/*
+**/shared/*
 
 # test results
 test/results*
