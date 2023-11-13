@@ -1,0 +1,37 @@
+ip address add 172.16.1.1/24 dev eth0
+ip route add default via 172.16.1.254 dev eth0
+
+systemctl start strongswan-starter
+
+# Generate CA certificate
+pki --gen --type ed25519 --outform pem > /root/UlisseKey.pem
+
+pki --self --ca --lifetime 3652 --in /root/UlisseKey.pem \
+           --dn "C=CH, O=Ulisse, CN=Ulisse Root CA" \
+           --outform pem > /etc/swanctl/x509ca/UlisseCert.pem
+
+cp /etc/swanctl/x509ca/UlisseCert.pem /shared
+
+# Generate certificate for PC1
+pki --gen --type ed25519 --outform pem > /etc/swanctl/private/PC1Key.pem
+
+pki --req --type priv --in /etc/swanctl/private/PC1Key.pem \
+          --dn "C=CH, O=Ulisse, CN=PC1" \
+          --san 172.16.1.1 --outform pem > /root/PC1Req.pem
+
+pki --issue --cacert /etc/swanctl/x509ca/UlisseCert.pem --cakey /root/UlisseKey.pem \
+            --type pkcs10 --in /root/PC1Req.pem --serial 01 --lifetime 1826 \
+            --outform pem > /etc/swanctl/x509/PC1Cert.pem
+
+# Generate certificate for PC2
+pki --gen --type ed25519 --outform pem > /shared/PC2Key.pem
+
+pki --req --type priv --in /shared/PC2Key.pem \
+          --dn "C=CH, O=Ulisse, CN=PC2" \
+          --san 172.16.2.1 --outform pem > /root/PC2Req.pem
+
+pki --issue --cacert /etc/swanctl/x509ca/UlisseCert.pem --cakey /root/UlisseKey.pem \
+            --type pkcs10 --in /root/PC2Req.pem --serial 01 --lifetime 1826 \
+            --outform pem > /shared/PC2Cert.pem
+
+swanctl --load-all

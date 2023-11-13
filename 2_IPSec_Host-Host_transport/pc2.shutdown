@@ -1,0 +1,2 @@
+swanctl --terminate --ike host-host 2> /dev/null
+rm /shared/*

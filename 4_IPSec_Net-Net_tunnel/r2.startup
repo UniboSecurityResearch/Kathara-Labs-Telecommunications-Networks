@@ -1,0 +1,14 @@
+ip address add 172.16.2.254/24 dev eth0
+ip address add 10.12.12.2/24 dev eth1
+ip route add 172.16.1.0/24 via 10.12.12.1 dev eth1
+
+while [[ ! -f /shared/R2Cert.pem ]]; do sleep 1; done
+
+cp /shared/UlisseCert.pem /etc/swanctl/x509ca/UlisseCert.pem
+cp /shared/R2Key.pem /etc/swanctl/private/R2Key.pem
+cp /shared/R2Cert.pem /etc/swanctl/x509/R2Cert.pem
+
+systemctl start strongswan-starter
+
+swanctl --load-all
+swanctl --initiate --child net-net 2> /dev/null
