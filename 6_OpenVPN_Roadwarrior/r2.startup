@@ -1,0 +1,21 @@
+ip address add 172.16.2.126/25 dev eth0
+ip address add 10.12.12.2/24 dev eth1
+ip route add 172.16.1.0/24 via 10.12.12.1 dev eth1
+
+# Regola per traffico VPN
+ip route add 172.16.2.128/25 via 172.16.2.2
+
+
+VPNServer="172.16.2.2" # Ip of the VPN server
+wan="eth1"  # interface connected to the Internet
+lan="eth0"  # interface to IT
+#Allow VPN traffic
+/usr/sbin/iptables -A FORWARD -i $wan --destination $VPNServer --protocol udp --dport 1194 -o $lan -j ACCEPT
+/usr/sbin/iptables -A FORWARD -i $lan --source $VPNServer --protocol udp --sport 1194 -o $wan -j ACCEPT
+
+# Enable NAT
+/usr/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE
+
+# Block everything else from and to internet
+/usr/sbin/iptables -A FORWARD -o $wan -j DROP
+/usr/sbin/iptables -A FORWARD -i $wan -j DROP

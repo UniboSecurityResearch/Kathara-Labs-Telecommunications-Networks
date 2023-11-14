@@ -1,0 +1,2 @@
+swanctl --terminate --ike net-net 2> /dev/null
+rm /shared/*
