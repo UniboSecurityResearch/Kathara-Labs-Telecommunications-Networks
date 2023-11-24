@@ -1,0 +1,2 @@
+ip address add 192.168.2.254/24 dev eth0
+ip address add 192.168.3.254/24 dev eth1

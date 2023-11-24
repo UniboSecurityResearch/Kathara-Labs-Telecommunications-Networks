@@ -1,0 +1,17 @@
+service openvswitch-switch start
+#/usr/sbin/ovsdb-server --detach --pidfile --log-file --remote=punix:/var/run/openvswitch/db.sock --remote=ptcp:6633
+#/usr/sbin/ovs-vswitchd --detach --pidfile --log-file
+
+ovs-vsctl add-br s1
+
+ovs-vsctl add-port s1 eth1 tag=2
+ovs-vsctl add-port s1 eth2 tag=3
+
+ovs-vsctl add-port s1 eth0
+ovs-vsctl set port eth0 tag=2
+ovs-vsctl add-port s1 eth3
+ovs-vsctl set port eth3 tag=3
+
+ovs-vsctl add-port s1 eth4 trunks=2,3
+
+ovs-vsctl show

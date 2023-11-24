@@ -1,0 +1,6 @@
+ip link add link eth0 name eth0.2 type vlan id 2
+ip addr add 192.168.2.254/24 dev eth0.2
+ip link set eth0.2 up
+ip link add link eth0 name eth0.3 type vlan id 3
+ip addr add 192.168.3.254/24 dev eth0.3
+ip link set eth0.3 up
