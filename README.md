@@ -17,7 +17,7 @@ The `labs_Overlay_Networks` directory contains network scenarios that explain ov
 
 ## VLAN labs
 The `labs_VLAN` directory contains network scenarios that explain how VLAN and VLAN tagging 802.1Q​ works:
-- 
+- [ TODO ]
 
 ## Resources
 In the following you can find some links to useful resources:
