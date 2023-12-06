@@ -1,0 +1,5 @@
+touch /var/lib/dhcp/dhcpd.leases
+ifconfig eth0 192.168.1.1/24
+/etc/init.d/networking stop
+/etc/init.d/networking start
+/etc/init.d/isc-dhcp-server restart

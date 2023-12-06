@@ -1,0 +1,4 @@
+/etc/init.d/networking stop
+
+#/etc/init.d/networking start
+#python3 arp_spoof.py

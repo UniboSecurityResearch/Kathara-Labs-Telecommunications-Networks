@@ -1,0 +1,12 @@
+ip address add 172.16.1.254/24 dev eth0
+ip address add 10.12.12.1/24 dev eth1
+#ip route add 172.16.2.0/24 via 10.12.12.2 dev eth1
+
+# Configure VxLAN tunnel on R1
+ip link add vxlan100 type vxlan id 100 local 10.12.12.1 remote 10.12.12.2 nolearning dstport 4789
+ip link set vxlan100 up
+brctl addbr br100
+brctl addif br100 vxlan100
+brctl addif br100 eth0
+brctl stp br100 off
+ip link set br100 up
