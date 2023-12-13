@@ -1,0 +1,2 @@
+ip address add 10.9.0.105/24 dev eth0
+#ettercap -T -M arp /// /// &
